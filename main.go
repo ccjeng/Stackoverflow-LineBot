@@ -75,7 +75,7 @@ type jsonobject struct {
 	Items []Item
 }
 
-//Item:
+//Item
 type Item struct {
 	Link  string `json:"link"`
 	Title string `json:"title"`
@@ -84,20 +84,27 @@ type Item struct {
 func stackoverflow(input string) string {
 	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + input
 
+	log.Println(stackoverflowEndPoint)
+
 	resp, err := http.Get(stackoverflowEndPoint)
 	if err != nil {
+		log.Println("RESPONSE ERROR")
 		log.Println(err)
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		log.Println("BODY ERROR")
 		log.Println(err)
 	}
+
+	log.Println(string(body))
 
 	var i jsonobject
 	err = json.Unmarshal(body, &i)
 	if err != nil {
+		log.Println("JSON ERROR")
 		log.Println(err)
 	}
 
