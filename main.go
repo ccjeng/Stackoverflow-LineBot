@@ -86,7 +86,7 @@ type Item struct {
 func stackoverflow(input string) string {
 
 	root := "http://api.stackexchange.com/2.2/similar"
-	para := "?page=1&pagesize=1&order=desc&sort=votes&title=" + url.QueryEscape(input)
+	para := "?page=1&pagesize=1&order=desc&sort=relevance&title=" + url.QueryEscape(input)
 
 	stackoverflowEndPoint := root + para
 
