@@ -13,6 +13,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -69,6 +70,17 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Item:
+type Item struct {
+	link  string
+	title string
+}
+
+//Items:
+type Itemslice struct {
+	Items []Item
+}
+
 func stackoverflow(input string) string {
 	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + input
 
@@ -82,5 +94,12 @@ func stackoverflow(input string) string {
 	if err != nil {
 		log.Println(err)
 	}
-	return string(body)
+
+	var i Itemslice
+	err = json.Unmarshal(body, &i)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return i.Items[0].title
 }
