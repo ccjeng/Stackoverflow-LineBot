@@ -85,8 +85,6 @@ type Item struct {
 func stackoverflow(input string) string {
 	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + url.QueryEscape(input)
 
-	log.Println(stackoverflowEndPoint)
-
 	resp, err := http.Get(stackoverflowEndPoint)
 	if err != nil {
 		log.Println("RESPONSE ERROR")
@@ -107,7 +105,14 @@ func stackoverflow(input string) string {
 		log.Println(err)
 	}
 
-	var ret = i.Items[0].Title + " " + i.Items[0].Link
+	var ret string
+
+	if len(i.Items) == 0 {
+		ret = "No Data"
+	} else {
+		ret = i.Items[0].Title + " " + i.Items[0].Link
+	}
+
 	if len(ret) == 0 {
 		ret = "No Data"
 	}
