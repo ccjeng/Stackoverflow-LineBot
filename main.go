@@ -15,6 +15,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -87,32 +88,27 @@ func stackoverflow(input string) string {
 
 	resp, err := http.Get(stackoverflowEndPoint)
 	if err != nil {
-		log.Println("RESPONSE ERROR")
 		log.Println(err)
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Println("BODY ERROR")
 		log.Println(err)
 	}
 
 	var i jsonobject
 	err = json.Unmarshal(body, &i)
 	if err != nil {
-		log.Println("JSON ERROR")
 		log.Println(err)
 	}
 
 	var ret string
 
-	log.Println(string(len(i.Items)))
-
 	if len(i.Items) == 0 {
 		ret = "No Data Found"
 	} else {
-		ret = i.Items[0].Title + " " + i.Items[0].Link
+		ret = html.UnescapeString(i.Items[0].Title) + " " + i.Items[0].Link
 	}
 
 	if len(ret) == 0 {
