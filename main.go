@@ -107,11 +107,13 @@ func stackoverflow(input string) string {
 
 	var ret string
 
-	if len(i.Items) == 0 {
-		ret = "No Data"
-	} else {
-		ret = i.Items[0].Title + " " + i.Items[0].Link
-	}
+	log.Println(string(len(i.Items)))
+
+	//	if len(i.Items) == 0 {
+	//		ret = "No Data Found"
+	//	} else {
+	ret = i.Items[0].Title + " " + i.Items[0].Link
+	//	}
 
 	if len(ret) == 0 {
 		ret = "No Data"
