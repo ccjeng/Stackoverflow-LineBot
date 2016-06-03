@@ -14,6 +14,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -54,10 +55,32 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 			text, err := content.TextContent()
 
-			_, err = bot.SendText([]string{content.From}, "OK! "+text.Text)
+			log.Println("INPUT = " + text.Text)
+
+			var outputString = stackoverflow(text.Text)
+
+			log.Println("OUTPUT = " + outputString)
+
+			_, err = bot.SendText([]string{content.From}, outputString)
 			if err != nil {
 				log.Println(err)
 			}
 		}
 	}
+}
+
+func stackoverflow(input string) string {
+	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + input
+
+	resp, err := http.Get(stackoverflowEndPoint)
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+	}
+	return string(body)
 }
