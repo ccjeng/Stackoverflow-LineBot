@@ -18,6 +18,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 
@@ -82,7 +83,7 @@ type Item struct {
 }
 
 func stackoverflow(input string) string {
-	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + input
+	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + url.QueryEscape(input)
 
 	log.Println(stackoverflowEndPoint)
 
@@ -99,8 +100,6 @@ func stackoverflow(input string) string {
 		log.Println(err)
 	}
 
-	log.Println(string(body))
-
 	var i jsonobject
 	err = json.Unmarshal(body, &i)
 	if err != nil {
@@ -112,8 +111,6 @@ func stackoverflow(input string) string {
 	if len(ret) == 0 {
 		ret = "No Data"
 	}
-
-	//	log.Println("i = " + string(i))
 
 	return ret
 }
