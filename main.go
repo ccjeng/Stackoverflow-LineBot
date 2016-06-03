@@ -101,5 +101,13 @@ func stackoverflow(input string) string {
 		log.Println(err)
 	}
 
-	return i.Items[0].title
+	var ret = i.Items[0].title
+	if len(ret) == 0 {
+		ret = "No Data"
+	}
+
+	//	log.Println("i = " + string(i))
+	log.Println("i.Items[0] = " + string(i.Items[0].title))
+
+	return ret
 }
