@@ -1,1 +1,1 @@
-web: LineBot
+web: stackoverflowbot
