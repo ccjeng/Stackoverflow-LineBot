@@ -84,7 +84,11 @@ type Item struct {
 }
 
 func stackoverflow(input string) string {
-	stackoverflowEndPoint := "http://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + url.QueryEscape(input)
+
+	root := "http://api.stackexchange.com/2.2/similar"
+	para := "?order=desc&sort=relevance&title=" + url.QueryEscape(input)
+
+	stackoverflowEndPoint := root + para
 
 	resp, err := http.Get(stackoverflowEndPoint)
 	if err != nil {
