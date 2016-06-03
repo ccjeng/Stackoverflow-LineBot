@@ -70,15 +70,37 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//Item:
-type Item struct {
-	link  string
-	title string
+//Items:
+type jsonobject struct {
+	Items []Item
 }
 
-//Items:
-type Itemslice struct {
-	Items []Item
+//Item:
+type Item struct {
+	Tags  []TagObject
+	Owner []OwnerObject
+	//	isAnswered       bool    `json:"is_answered"`
+	//	viewCount        int     `json:"view_count"`
+	//	answerCount      int     `json:"answer_count"`
+	//	score            int     `json:"score"`
+	//	lastActivityDate int     `json:"last_activity_date"`
+	//	creationDate     float32 `json:"creation_date"`
+	//	questionId       float32 `json:"question_id"`
+	Link  string `json:"link"`
+	Title string `json:"title"`
+}
+
+type TagObject struct {
+	Tag string
+}
+
+type OwnerObject struct {
+	Reputation   int
+	UserId       int
+	UserType     string
+	ProfileImage string
+	DisplayName  string
+	Link         string
 }
 
 func stackoverflow(input string) string {
@@ -95,19 +117,19 @@ func stackoverflow(input string) string {
 		log.Println(err)
 	}
 
-	var i Itemslice
+	var i jsonobject
 	err = json.Unmarshal(body, &i)
 	if err != nil {
 		log.Println(err)
 	}
 
-	var ret = i.Items[0].title
+	var ret = i.Items[0].Title
 	if len(ret) == 0 {
 		ret = "No Data"
 	}
 
 	//	log.Println("i = " + string(i))
-	log.Println("i.Items[0] = " + string(i.Items[0].title))
+	log.Println("i.Items[0] = " + string(i.Items[0].Title))
 
 	return ret
 }
