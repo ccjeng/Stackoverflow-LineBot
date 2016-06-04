@@ -1,6 +1,6 @@
 # Stackoverflow on Line BOT
 [![Build Status](https://travis-ci.org/ccjeng/Stackoverflow-LineBot.svg?branch=master)](https://travis-ci.org/ccjeng/Stackoverflow-LineBot)
-[![GoDoc](https://godoc.org/github.com/ccjeng/Stackoverflow-LineBot?status.svg)](https://godoc.org/github.com/ccjeng/Stackoverflow-LineBot) 
+[![GoDoc](https://godoc.org/github.com/ccjeng/Stackoverflow-LineBot?status.svg)](https://godoc.org/github.com/ccjeng/Stackoverflow-LineBot)
 
 Search StackOverflow solutions on Line!
 
