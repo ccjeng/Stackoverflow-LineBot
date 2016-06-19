@@ -29,6 +29,7 @@ func main() {
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
+
 }
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +44,17 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	for _, result := range received.Results {
 		content := result.Content()
+
+		//Add with new friend.
+		if content != nil && content.IsOperation && content.OpType == linebot.OpTypeAddedAsFriend {
+			out := fmt.Sprintf("Thanks for add StackOverflow BOT. Please type technical questions. The BOT will response a similar issue in StackOverflow website. The link can be clicked to see detail resolutions.")
+			_, err = bot.SendText([]string{result.RawContent.Params[0]}, out)
+			if err != nil {
+				log.Println(err)
+			}
+			log.Println("New friend add, send cue to new friend.")
+		}
+
 		if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 			text, err := content.TextContent()
 
