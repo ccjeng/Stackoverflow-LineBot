@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -110,13 +111,17 @@ func stackoverflow(input string) string {
 	var ret string
 
 	if len(i.Items) == 0 {
-		ret = "No Data Found"
+		ret = "Sorry, I can't find relevant solutions, please specify your question."
 	} else {
 		ret = html.UnescapeString(i.Items[0].Title) + " " + i.Items[0].Link
 	}
 
 	if len(ret) == 0 {
-		ret = "No Data"
+		ret = "Sorry, I can't find relevant solutions, please specify your question."
+	}
+
+	if strings.ToLower(input) == "hello" {
+		ret = input + " +1"
 	}
 
 	return ret
